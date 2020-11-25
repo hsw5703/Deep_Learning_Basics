@@ -11,9 +11,13 @@ except ImportError:
 
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=False, flatten=True, one_hot_label=False)
 # normalize : 이미지의 픽셀 값을 0.0~1.0 사이의 값으로 정규화할지 정한다.
+# one_hot_label = True : train_t와 test_t에 해당하는 값에만 적용된다.
+# 0~9까지의 숫자가 train_t(학습데이터의 정답데이터)에 담겨있는데 이를 0과 1로 나타낸다.
+# 예를 들어 5인 경우, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0] 로 5번 칸에 1이 나온다.
+# 이는 사용자 정의 함수로 mnist.py에 들어가서 살펴보면 알 수 있다.
 
-print(train_x.shape) # 60000 * 784 matrix
-print(train_t.shape) # 60000 vector
+print(train_x.shape) # 60000 * 784 matrix 학습데이터
+print(train_t.shape) # 60000 vector 학습데이터의 정답
 
 t = train_t[0]
 print(t) # 5
