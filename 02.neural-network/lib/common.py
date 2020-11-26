@@ -71,27 +71,55 @@ def cross_entropy_error(y, t): # y.ndim == 2인 경우는 ex03에서 확인할 �
     return e
 
 def numerical_diff1(f, w, x, t):
-    """
-    return 변수 x(벡터,1차원 numpy array)에 대한 편미분 결과(벡터, 1차원 numpy array) 반환
-    : param f: 손실함수
-    : pram x : 변수(벡터, 1차원 numpy array)
-    """
     h = 1e-4
-    dw = np.zeros_like(w)
+    gradient = np.zeros_like(w)
 
-    for i in range(w.size):
-        tmp = w[i]
+    it = np.nditer(w, flags=['multi_index'], op_flags=['readwrite'])
+    # np.nditer는 배열을 for문을 사용하지 않고 순서대로 index를 출력한다.
+    # flags = ['multi_index'] 는 2차원 또는 3차원의 형태로 위치를 튜플로 받겠다는 뜻.
+    # op_flags=['readwrite'] 는 읽고 쓰기를 같이 하겠다는 뜻.
+    while not it.finished: # 경사하강법
+        idx = it.multi_index
+        temp = w[idx] # op_flags=['readwrite']의 읽기 부분.
 
-        w[i] = tmp + h
+        w[idx] = temp + h # op_flags=['readwrite']의 쓰기 부분.
         h1 = f(w, x, t)
 
-        w[i] = tmp - h
+        w[idx] = temp - h
         h2 = f(w, x, t)
 
-        dw[i] = (h1 - h2) / (2 * h)
-        w[i] = tmp
+        gradient[idx] = (h1 - h2) / (2 * h)
 
-    return dx
+        w[idx] = temp
+        it.iternext() # 다음 순서로 넘어가게 한다.
+
+    return gradient
 
 
 numerical_gradient1 = numerical_diff1
+
+
+def numerical_diff2(f, w):
+    h = 1e-4
+    gradient = np.zeros_like(w)
+
+    it = np.nditer(w, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        temp = w[idx]
+
+        w[idx] = temp + h
+        h1 = f(w)
+
+        w[idx] = temp - h
+        h2 = f(w)
+
+        gradient[idx] = (h1 - h2) / (2 * h)
+
+        w[idx] = temp   # 값복원
+        it.iternext()
+
+    return gradient
+
+
+numerical_gradient2 = numerical_diff2

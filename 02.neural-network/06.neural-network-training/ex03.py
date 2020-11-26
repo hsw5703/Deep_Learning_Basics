@@ -3,6 +3,7 @@ import os
 import sys
 import numpy as np
 from pathlib import Path
+
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
@@ -13,16 +14,16 @@ except ImportError:
 
 # test1
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
-print(train_x.shape)    # 60000 x 784
-print(train_t.shape)    # 60000 x 10
+print(train_x.shape)  # 60000 x 784
+print(train_t.shape)  # 60000 x 10
 
-train_size = len(train_x) # 60000
+train_size = len(train_x)  # 60000
 batch_size = 10
 
-batch_mask = np.random.choice(train_size, batch_size) # train_size(60000개) 중에서 batch_size(10개)를 임의로 뽑는다.
+batch_mask = np.random.choice(train_size, batch_size)  # train_size(60000개) 중에서 batch_size(10개)를 임의로 뽑는다.
 print(batch_mask)
 
-train_x_batch = train_x[batch_mask] # batch_mask를 행의 index로 하여 데이터를 선별한다.
+train_x_batch = train_x[batch_mask]  # batch_mask를 행의 index로 하여 데이터를 선별한다.
 train_t_batch = train_t[batch_mask]
 print(train_x_batch.shape)  # 10 X 784
 print(train_t_batch.shape)  # 10 x 10

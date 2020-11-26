@@ -58,6 +58,21 @@ def _change_one_hot_label(x):
 
     return t
 
+import numpy as np
+
+# def _change_one_hot_label(x): # 설명
+#     t = np.zeros((x.size, 10)) # x.size = 1, t = (1 * 10) matrix
+#     for idx, row in enumerate(t): # idx = 0 / row = t[0] = 10 vector (둘은 같은 주소를 사용한다)
+#         row[x[idx]] = 1 # x[idx] = 7, data type : int
+#     # t[0]라는 10 vector에서 x[idx] = 7번 째에 1의 값을 대입한다.
+#     # 같은 주소를 사용하므로 row의 값이 바뀌면 t[0]도 같이 바뀐다.
+#
+#     return t
+#
+# x = np.array([7])
+# y = _change_one_hot_label(x)
+# print(y)
+
 
 def init_network():
     datasetdir = os.path.join(os.getcwd(), 'dataset')
