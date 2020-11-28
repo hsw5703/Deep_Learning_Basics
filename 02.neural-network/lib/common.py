@@ -1,15 +1,19 @@
 import numpy as np
 
+
 # sigmoid function
 
-def sigmoid(x) :
-    return 1 / (1 + np.e**(-x))
+def sigmoid(x):
+    return 1 / (1 + np.e ** (-x))
 
-def relu(x) :
+
+def relu(x):
     return np.maximum(0, x)
+
 
 def identity(x):
     return x
+
 
 # softmax activation function: 큰값에서 NAN 반환하는 불안한 함수
 def softmax_overflow(x):
@@ -42,33 +46,37 @@ def softmax(x):
 
 # Sum of Squares Error(SSE)
 def sum_squares_error(y, t):
-    e = 0.5 * np.sum((y-t)**2)
+    e = 0.5 * np.sum((y - t) ** 2)
     return e
 
 
 # batch 없을 때
 # cross entropy error
 # t = one hot
-def cross_entropy_error_non_batch(y, t): # delta에 작은 값을 넣어준 이유는 log에 0이 들어갔을 경우 무한대로 오차가 커지는 걸 방지하기 위해서이다.
+
+def cross_entropy_error_non_batch(y, t):
+    # delta에 작은 값을 넣어준 이유는 log에 0이 들어갔을 경우 무한대로 오차가 커지는 걸 방지하기 위해서이다.
     delta = 1.e-7
-    e = -np.sum(t * np.log(y+delta))
+    e = -np.sum(t * np.log(y + delta))
     return e
 
 
 # cross entropy error
 # t = one hot
 # for batch
-def cross_entropy_error(y, t): # y.ndim == 2인 경우는 ex03에서 확인할 수 있다.
-    if y.ndim == 1 :
-        y = y.reshape(1, y.size) # (1 * y.size) matrix
-        t = t.reshape(1, t.size) # (1 * t.size) matrix
+def cross_entropy_error(y, t):  # y.ndim == 2인 경우는 ex03에서 확인할 수 있다.
+    if y.ndim == 1:
+        y = y.reshape(1, y.size)  # (1 * y.size) matrix
+        t = t.reshape(1, t.size)  # (1 * t.size) matrix
 
     batch_size = y.shape[0]
 
     delta = 1.e-7
-    e = -np.sum(t * np.log(y+delta)) / batch_size
+    e = -np.sum(t * np.log(y + delta)) / batch_size
+    # delta에 작은 값을 넣어준 이유는 log에 0이 들어갔을 경우 무한대로 오차가 커지는 걸 방지하기 위해서이다.
 
     return e
+
 
 def numerical_diff1(f, w, x, t):
     h = 1e-4
@@ -78,11 +86,11 @@ def numerical_diff1(f, w, x, t):
     # np.nditer는 배열을 for문을 사용하지 않고 순서대로 index를 출력한다.
     # flags = ['multi_index'] 는 2차원 또는 3차원의 형태로 위치를 튜플로 받겠다는 뜻.
     # op_flags=['readwrite'] 는 읽고 쓰기를 같이 하겠다는 뜻.
-    while not it.finished: # 경사하강법
+    while not it.finished:  # 경사하강법
         idx = it.multi_index
-        temp = w[idx] # op_flags=['readwrite']의 읽기 부분.
+        temp = w[idx]  # op_flags=['readwrite']의 읽기 부분.
 
-        w[idx] = temp + h # op_flags=['readwrite']의 쓰기 부분.
+        w[idx] = temp + h  # op_flags=['readwrite']의 쓰기 부분.
         h1 = f(w, x, t)
 
         w[idx] = temp - h
@@ -91,7 +99,7 @@ def numerical_diff1(f, w, x, t):
         gradient[idx] = (h1 - h2) / (2 * h)
 
         w[idx] = temp
-        it.iternext() # 다음 순서로 넘어가게 한다.
+        it.iternext()  # 다음 순서로 넘어가게 한다.
 
     return gradient
 
@@ -116,7 +124,7 @@ def numerical_diff2(f, w):
 
         gradient[idx] = (h1 - h2) / (2 * h)
 
-        w[idx] = temp   # 값복원
+        w[idx] = temp  # 값복원
         it.iternext()
 
     return gradient

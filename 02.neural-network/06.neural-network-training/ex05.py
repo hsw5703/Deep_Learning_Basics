@@ -16,7 +16,7 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2.hyperparameters
-numiters = 1  # 10000
+numiters = 10  # 10000
 szbatch = 100
 sztrain = train_x.shape[0] # 60000
 ratelearning = 0.1

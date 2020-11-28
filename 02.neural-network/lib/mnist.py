@@ -3,7 +3,6 @@ import os.path
 import gzip
 import pickle
 import os
-import numpy as np
 
 try:
     import urllib.request
@@ -68,10 +67,19 @@ import numpy as np
 #     # 같은 주소를 사용하므로 row의 값이 바뀌면 t[0]도 같이 바뀐다.
 #
 #     return t
-#
+
 # x = np.array([7])
 # y = _change_one_hot_label(x)
 # print(y)
+
+#     print('----아래와 같은 예시----')
+#     a = [[1, 2, 3],
+#          [4, 5, 6],
+#          [7, 8, 9]]
+#     b = a
+#     b[0][1] = 3
+#     print(b)
+#     print(a)
 
 
 def init_network():
