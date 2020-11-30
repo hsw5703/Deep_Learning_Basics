@@ -1,8 +1,12 @@
+# Training Neural Network
+# Data Set: MNIST Handwritten Digit Dataset
+# Network: TwoLayerNet
+# Estimation: Training
 import os
 import pickle
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
-train_loss_file = os.path.join(os.getcwd(), 'dataset', 'twolayer-train-loss.pkl')
+train_loss_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_train_losses.pkl')
 train_losses = None
 
 with open(train_loss_file, 'rb') as f:
@@ -10,6 +14,6 @@ with open(train_loss_file, 'rb') as f:
 
 plt.plot(train_losses)
 plt.xlabel('Iterations')
-plt.ylabel('loss')
+plt.ylabel('Loss')
 
 plt.show()
